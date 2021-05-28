@@ -22,6 +22,13 @@ async def greeting(ctx):
     await ctx.send("Hello")
 
 
+@client.command(name="sheets")
+async def googleSheets(ctx):
+    embed = Embed(title="Pokemon", description="Nuzlocke Stats",
+                  colour=0xFF0000, timestamp=datetime.datetime.utcnow())
+    await ctx.send(embed=embed)
+
+
 # runs when bot is started ----- not seen in server
 @client.event
 async def on_ready():
