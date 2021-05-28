@@ -1,0 +1,1 @@
+worker: python github-repo/main.py
