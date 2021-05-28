@@ -1,1 +1,1 @@
-worker: python github-repo/main.py
+worker: python main.py
