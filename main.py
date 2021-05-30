@@ -24,7 +24,7 @@ async def greeting(ctx):
 
 @client.command(name="sheets")
 async def googleSheets(ctx):
-    key = os.environ.get("GoogleSheetsAPI")
+    """key = os.environ.get("GoogleSheetsAPI")
     gc = pygsheets.authorize(service_file=key)
     # open the google spreadsheet (where 'PY to Gsheet Test' is the name of my sheet)
     sheet = gc.open("PY to Gsheet Test")
@@ -38,11 +38,11 @@ async def googleSheets(ctx):
 
     # update the first sheet with df.
     wks.set_dataframe(df, (0, 0))
-    wks.delete_rows(1)
+    wks.delete_rows(1)"""
 
     embed = Embed(title="Pokemon", description="Black And White 2",
                   colour=0x0000FF, timestamp=datetime.datetime.utcnow())
-    embed.add_field(name="Current Stats", value=df.to_string(header=None, index=None), inline=False)
+    embed.add_field(name="Current Stats", value=None, inline=False)
     """embed.set_thumbnail(url="https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/International_Pok%C3"
                             "%A9mon_logo.svg/1200px-International_Pok%C3%A9mon_logo.svg.png")"""
     await ctx.send(embed=embed)
