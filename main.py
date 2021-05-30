@@ -49,19 +49,19 @@ async def googleSheets(ctx):
                             "%A9mon_logo.svg/1200px-International_Pok%C3%A9mon_logo.svg.png")
     message = await ctx.send(embed=embed)
 
-    await message.add_reaction(':regional_indicator_r:')
-    await message.add_reaction(':regional_indicator_d:')
-    await message.add_reaction(':regional_indicator_p: ')
+    await message.add_reaction('🇷')
+    await message.add_reaction('🇩')
+    await message.add_reaction('🇵')
 
     while True:
         react = await client.wait_for('reaction_add')
 
-        if str(react[0]) == ":regional_indicator_r:":
-            await message.remove_reaction(":regional_indicator_r:", ctx.author)
-        elif str(react[0]) == ":regional_indicator_d:":
-            await message.remove_reaction(":regional_indicator_d:", ctx.author)
-        elif str(react[0]) == ":regional_indicator_p:":
-            await message.remove_reaction(":regional_indicator_p:", ctx.author)
+        if str(react[0]) == "🇷":
+            await message.remove_reaction("🇷", ctx.author)
+        elif str(react[0]) == "🇩":
+            await message.remove_reaction("🇩", ctx.author)
+        elif str(react[0]) == "🇵":
+            await message.remove_reaction("🇵", ctx.author)
 
 
 # runs when bot is started ----- not seen in server
