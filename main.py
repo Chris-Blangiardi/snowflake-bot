@@ -6,25 +6,13 @@ import pygsheets
 import pandas as pd
 import os
 
-
 BOT_PREFIX = "!"
 BOT_TOKEN = os.environ.get("Snowflake_BOT_TOKEN")
 client = Bot(command_prefix=BOT_PREFIX)
 
 
-@client.event
-async def on_message(message):
-    await client.process_commands(message)
-
-
-@client.command(name="greet")
-async def greeting(ctx):
-    await ctx.send("Hello {}".format(ctx.author.name))
-
-
-@client.command(name="sheets")
-async def googleSheets(ctx):
-    """key = os.environ.get("GoogleSheetsAPI")
+def googleSheets():
+    key = os.environ.get("GoogleSheetsAPI")
     gc = pygsheets.authorize(service_file=key)
     # open the google spreadsheet (where 'PY to Gsheet Test' is the name of my sheet)
     sheet = gc.open("PY to Gsheet Test")
@@ -38,11 +26,26 @@ async def googleSheets(ctx):
 
     # update the first sheet with df.
     wks.set_dataframe(df, (0, 0))
-    wks.delete_rows(1)"""
+    wks.delete_rows(1)
+    return df
 
+
+@client.event
+async def on_message(message):
+    await client.process_commands(message)
+
+
+@client.command(name="greet")
+async def greeting(ctx):
+    await ctx.send("Hello {}".format(ctx.author.name))
+
+
+@client.command(name="sheets")
+async def pokemon(ctx):
+    stats = googleSheets()
     embed = Embed(title="Pokemon", description="Black And White 2",
                   colour=0x0000FF, timestamp=datetime.datetime.utcnow())
-    embed.add_field(name="Current Stats", value=None, inline=False)
+    embed.add_field(name="Current Stats", value=stats.to_string(header=False, index=False), inline=False)
     embed.set_thumbnail(url="https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/International_Pok%C3"
                             "%A9mon_logo.svg/1200px-International_Pok%C3%A9mon_logo.svg.png")
 
