@@ -24,7 +24,7 @@ async def greeting(ctx):
 
 @client.command(name="sheets")
 async def googleSheets(ctx):
-    """key = os.environ.get("GoogleSheetsAPI")
+    key = os.environ.get("GoogleSheetsAPI")
     gc = pygsheets.authorize(service_file=key)
     # open the google spreadsheet (where 'PY to Gsheet Test' is the name of my sheet)
     sheet = gc.open("PY to Gsheet Test")
@@ -38,20 +38,21 @@ async def googleSheets(ctx):
 
     # update the first sheet with df.
     wks.set_dataframe(df, (0, 0))
-    wks.delete_rows(1)"""
+    wks.delete_rows(1)
 
     embed = Embed(title="Pokemon", description="Black And White 2",
                   colour=0x0000FF, timestamp=datetime.datetime.utcnow())
     embed.add_field(name="Current Stats", value=None, inline=False)
-    """embed.set_thumbnail(url="https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/International_Pok%C3"
-                            "%A9mon_logo.svg/1200px-International_Pok%C3%A9mon_logo.svg.png")"""
-    await ctx.send(embed=embed)
+    embed.set_thumbnail(url="https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/International_Pok%C3"
+                            "%A9mon_logo.svg/1200px-International_Pok%C3%A9mon_logo.svg.png")
 
-    """await message.add_reaction('🇷')
+    message = await ctx.send(embed=embed)
+
+    await message.add_reaction('🇷')
     await message.add_reaction('🇩')
-    await message.add_reaction('🇵')"""
+    await message.add_reaction('🇵')
 
-    """while True:
+    while True:
         react = await client.wait_for('reaction_add')
 
         if str(react[0]) == "🇷":
@@ -59,7 +60,7 @@ async def googleSheets(ctx):
         elif str(react[0]) == "🇩":
             await message.remove_reaction("🇩", ctx.author)
         elif str(react[0]) == "🇵":
-            await message.remove_reaction("🇵", ctx.author)"""
+            await message.remove_reaction("🇵", ctx.author)
 
 
 # runs when bot is started ----- not seen in server
