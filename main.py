@@ -40,13 +40,11 @@ async def googleSheets(ctx):
     wks.set_dataframe(df, (0, 0))
     wks.delete_rows(1)
 
-    embed = Embed(title="Pokemon", description="Black And White 2", url="https://docs.google.com/spreadsheets/d"
-                                                                        "/1hebqj2A4i40dG"
-                                                                        "-iR0EWiX62072ZLtmcW8Rr2vbXM_xs/edit",
+    embed = Embed(title="Pokemon", description="Black And White 2",
                   colour=0x0000FF, timestamp=datetime.datetime.utcnow())
     embed.add_field(name="Current Stats", value=df.to_string(header=None, index=None), inline=False)
-    embed.set_thumbnail(url="https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/International_Pok%C3"
-                            "%A9mon_logo.svg/1200px-International_Pok%C3%A9mon_logo.svg.png")
+    """embed.set_thumbnail(url="https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/International_Pok%C3"
+                            "%A9mon_logo.svg/1200px-International_Pok%C3%A9mon_logo.svg.png")"""
     message = await ctx.send(embed=embed)
 
     """await message.add_reaction('🇷')
