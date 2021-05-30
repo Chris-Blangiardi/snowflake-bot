@@ -53,7 +53,7 @@ async def googleSheets(ctx):
     await message.add_reaction('🇩')
     await message.add_reaction('🇵')
 
-    while True:
+    """while True:
         react = await client.wait_for('reaction_add')
 
         if str(react[0]) == "🇷":
@@ -61,7 +61,7 @@ async def googleSheets(ctx):
         elif str(react[0]) == "🇩":
             await message.remove_reaction("🇩", ctx.author)
         elif str(react[0]) == "🇵":
-            await message.remove_reaction("🇵", ctx.author)
+            await message.remove_reaction("🇵", ctx.author)"""
 
 
 # runs when bot is started ----- not seen in server
