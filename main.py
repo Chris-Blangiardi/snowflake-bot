@@ -48,11 +48,10 @@ async def googleSheets(ctx):
     embed.set_thumbnail(url="https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/International_Pok%C3"
                             "%A9mon_logo.svg/1200px-International_Pok%C3%A9mon_logo.svg.png")
     message = await ctx.send(embed=embed)
-    message
 
-    await message.add_reaction('🇷')
+    """await message.add_reaction('🇷')
     await message.add_reaction('🇩')
-    await message.add_reaction('🇵')
+    await message.add_reaction('🇵')"""
 
     """while True:
         react = await client.wait_for('reaction_add')
