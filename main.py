@@ -19,14 +19,49 @@ async def on_message(message):
 
 @client.command(name="greet")
 async def greeting(ctx):
-    await ctx.send("Hello")
+    await ctx.send("Hello {}".format(ctx.author.name))
 
 
 @client.command(name="sheets")
 async def googleSheets(ctx):
-    embed = Embed(title="Pokemon", description="Nuzlocke Stats",
-                  colour=0xFF0000, timestamp=datetime.datetime.utcnow())
-    await ctx.send(embed=embed)
+    key = os.environ.get("GoogleSheetsAPI")
+    gc = pygsheets.authorize(service_file=key)
+    # open the google spreadsheet (where 'PY to Gsheet Test' is the name of my sheet)
+    sheet = gc.open("PY to Gsheet Test")
+    # select the first sheet
+    wks = sheet.sheet1
+
+    column_data = wks.get_row(row=1)
+    row_data = wks.get_col(col=1, include_tailing_empty=False)
+
+    df = pd.DataFrame(data=wks, columns=column_data, index=row_data)
+
+    # update the first sheet with df.
+    wks.set_dataframe(df, (0, 0))
+    wks.delete_rows(1)
+
+    embed = Embed(title="Pokemon", description="Black And White 2", url="https://docs.google.com/spreadsheets/d"
+                                                                        "/1hebqj2A4i40dG"
+                                                                        "-iR0EWiX62072ZLtmcW8Rr2vbXM_xs/edit",
+                  colour=0x0000FF, timestamp=datetime.datetime.utcnow())
+    embed.add_field(name="Current Stats", value=df.to_string(header=None, index=None), inline=False)
+    embed.set_thumbnail(url="https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/International_Pok%C3"
+                            "%A9mon_logo.svg/1200px-International_Pok%C3%A9mon_logo.svg.png")
+    message = await ctx.send(embed=embed)
+
+    await message.add_reaction(':regional_indicator_r:')
+    await message.add_reaction(':regional_indicator_d:')
+    await message.add_reaction(':regional_indicator_p: ')
+
+    while True:
+        react = await client.wait_for('reaction_add')
+
+        if str(react[0]) == ":regional_indicator_r:":
+            await message.remove_reaction(":regional_indicator_r:", ctx.author)
+        elif str(react[0]) == ":regional_indicator_d:":
+            await message.remove_reaction(":regional_indicator_d:", ctx.author)
+        elif str(react[0]) == ":regional_indicator_p:":
+            await message.remove_reaction(":regional_indicator_p:", ctx.author)
 
 
 # runs when bot is started ----- not seen in server
