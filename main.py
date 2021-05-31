@@ -5,6 +5,7 @@ import datetime
 import pygsheets
 import pandas as pd
 import os
+import json
 
 BOT_PREFIX = "!"
 BOT_TOKEN = os.environ.get("Snowflake_BOT_TOKEN")
@@ -13,7 +14,8 @@ client = Bot(command_prefix=BOT_PREFIX)
 
 def googleSheets():
     key = os.environ.get("GoogleSheetsAPI")
-    gc = pygsheets.authorize(service_file=key)
+    jKey = json.loads(key)
+    gc = pygsheets.authorize(service_file=jKey)
     # open the google spreadsheet (where 'PY to Gsheet Test' is the name of my sheet)
     sheet = gc.open("PY to Gsheet Test")
     # select the first sheet
@@ -42,6 +44,7 @@ async def greeting(ctx):
 
 @client.command(name="sheets")
 async def pokemon(ctx):
+    googleSheets()
     embed = Embed(title="Pokemon", description="Black And White 2",
                   colour=0x0000FF, timestamp=datetime.datetime.utcnow())
     embed.add_field(name="Current Stats", value=None, inline=False)
