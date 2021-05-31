@@ -61,6 +61,7 @@ async def pokemon(ctx):
         react = await client.wait_for('reaction_add')
 
         if str(react[0]) == "🇷":
+            stats.at[ctx.author, "Restarts"] = stats.at[ctx.author, "Restarts"]+1
             await message.remove_reaction("🇷", ctx.author)
         elif str(react[0]) == "🇩":
             await message.remove_reaction("🇩", ctx.author)
