@@ -15,10 +15,7 @@ client = Bot(command_prefix=BOT_PREFIX)
 
 def googleSheets():
     key = os.environ.get("GoogleSheetsAPI")
-    key_dict = json.loads(key)
-    key_dict["private_key"] = key_dict["private_key"].replace("\\\\n", "\n")
-    creds = ServiceAccountCredentials.from_json_keyfile_dict(key_dict)
-    gc = pygsheets.authorize(service_file=creds)
+    gc = pygsheets.authorize(service_file=key)
     # open the google spreadsheet (where 'PY to Gsheet Test' is the name of my sheet)
     sheet = gc.open("PY to Gsheet Test")
     # select the first sheet
@@ -47,10 +44,10 @@ async def greeting(ctx):
 
 @client.command(name="sheets")
 async def pokemon(ctx):
-    googleSheets()
+    stats = googleSheets()
     embed = Embed(title="Pokemon", description="Black And White 2",
                   colour=0x0000FF, timestamp=datetime.datetime.utcnow())
-    embed.add_field(name="Current Stats", value=None, inline=False)
+    embed.add_field(name="Current Stats", value=stats.to_string(header=None, index=None), inline=False)
     embed.set_thumbnail(url="https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/International_Pok%C3"
                             "%A9mon_logo.svg/1200px-International_Pok%C3%A9mon_logo.svg.png")
 
