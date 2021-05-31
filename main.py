@@ -6,6 +6,7 @@ import pygsheets
 import pandas as pd
 import os
 import json
+from oauth2client.service_account import ServiceAccountCredentials
 
 BOT_PREFIX = "!"
 BOT_TOKEN = os.environ.get("Snowflake_BOT_TOKEN")
@@ -14,8 +15,10 @@ client = Bot(command_prefix=BOT_PREFIX)
 
 def googleSheets():
     key = os.environ.get("GoogleSheetsAPI")
-    jKey = json.loads(key)
-    gc = pygsheets.authorize(service_file=jKey)
+    key_dict = json.loads(key)
+    key_dict["private_key"] = key_dict["private_key"].replace("\\\\n", "\n")
+    creds = ServiceAccountCredentials.from_json_keyfile_dict(key_dict)
+    gc = pygsheets.authorize(service_file=creds)
     # open the google spreadsheet (where 'PY to Gsheet Test' is the name of my sheet)
     sheet = gc.open("PY to Gsheet Test")
     # select the first sheet
