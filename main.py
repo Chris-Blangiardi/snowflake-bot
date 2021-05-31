@@ -15,7 +15,7 @@ client = Bot(command_prefix=BOT_PREFIX)
 
 def googleSheets():
     key = os.environ.get("GoogleSheetsAPI")
-    gc = pygsheets.authorize(service_file=key)
+    gc = pygsheets.authorize(service_account_env_var="GoogleSheetsAPI")
     # open the google spreadsheet (where 'PY to Gsheet Test' is the name of my sheet)
     sheet = gc.open("PY to Gsheet Test")
     # select the first sheet
