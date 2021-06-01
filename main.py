@@ -1,35 +1,14 @@
-import discord
-from discord.ext.commands import Bot
-from discord import Embed
 import datetime
-import pygsheets
-import pandas as pd
 import os
-import json
-from oauth2client.service_account import ServiceAccountCredentials
+
+import pandas as pd
+import pygsheets
+from discord import Embed
+from discord.ext.commands import Bot
 
 BOT_PREFIX = "!"
 BOT_TOKEN = os.environ.get("Snowflake_BOT_TOKEN")
 client = Bot(command_prefix=BOT_PREFIX)
-
-
-def googleSheets():
-    key = os.environ.get("GoogleSheetsAPI")
-    gc = pygsheets.authorize(service_account_env_var="GoogleSheetsAPI")
-    # open the google spreadsheet (where 'PY to Gsheet Test' is the name of my sheet)
-    sheet = gc.open("PY to Gsheet Test")
-    # select the first sheet
-    wks = sheet.sheet1
-
-    column_data = wks.get_row(row=1)
-    row_data = wks.get_col(col=1, include_tailing_empty=False)
-
-    df = pd.DataFrame(data=wks, columns=column_data, index=row_data)
-
-    # update the first sheet with df.
-    wks.set_dataframe(df, (0, 0))
-    wks.delete_rows(1)
-    return df
 
 
 @client.event
@@ -44,10 +23,23 @@ async def greeting(ctx):
 
 @client.command(name="sheets")
 async def pokemon(ctx):
-    stats = googleSheets()
-    embed = Embed(title="Pokemon", description="Black And White 2",
+    key = os.environ.get("GoogleSheetsAPI")
+    gc = pygsheets.authorize(service_file=key)
+    # open the google spreadsheet (where 'PY to Gsheet Test' is the name of my sheet)
+    sheet = gc.open("PY to Gsheet Test")
+    # select the first sheet
+    wks = sheet.sheet1
+
+    column_data = wks.get_row(row=1)
+    row_data = wks.get_col(col=1, include_tailing_empty=False)
+
+    df = pd.DataFrame(data=wks, columns=column_data, index=row_data)
+
+    embed = Embed(title="Pokemon", description="Black And White 2", url="https://docs.google.com/spreadsheets/d"
+                                                                        "/1hebqj2A4i40dG"
+                                                                        "-iR0EWiX62072ZLtmcW8Rr2vbXM_xs/edit#gid=0",
                   colour=0x0000FF, timestamp=datetime.datetime.utcnow())
-    embed.add_field(name="Current Stats", value=stats.to_string(header=None, index=None), inline=False)
+    embed.add_field(name="Current Stats", value=df.to_string(header=None, index=None, max_colwidth=True), inline=False)
     embed.set_thumbnail(url="https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/International_Pok%C3"
                             "%A9mon_logo.svg/1200px-International_Pok%C3%A9mon_logo.svg.png")
 
@@ -61,12 +53,25 @@ async def pokemon(ctx):
         react = await client.wait_for('reaction_add')
 
         if str(react[0]) == "🇷":
-            stats.at[ctx.author, "Restarts"] = stats.at[ctx.author, "Restarts"]+1
+            df.at["{}".format(ctx.author), "Restarts"] = int(df.at["{}".format(ctx.author), "Restarts"]) + 1
             await message.remove_reaction("🇷", ctx.author)
         elif str(react[0]) == "🇩":
+            df.at["{}".format(ctx.author), "Deaths"] = int(df.at["{}".format(ctx.author), "Deaths"]) + 1
             await message.remove_reaction("🇩", ctx.author)
         elif str(react[0]) == "🇵":
+            df.at["{}".format(ctx.author), "PB"] = int(df.at["{}".format(ctx.author), "PB"]) + 1
             await message.remove_reaction("🇵", ctx.author)
+
+        wks.set_dataframe(df, (0, 0))
+        wks.delete_rows(1)
+
+        embed_update = Embed(title="Pokemon", description="Black And White 2",
+                             colour=0x0000FF, timestamp=datetime.datetime.utcnow())
+        embed_update.add_field(name="Current Stats", value=df.to_string(header=None, index=None), inline=False)
+        embed_update.set_thumbnail(url="https://upload.wikimedia.org/wikipedia/commons/thumb/9/98"
+                                       "/International_Pok%C3"
+                                       "%A9mon_logo.svg/1200px-International_Pok%C3%A9mon_logo.svg.png")
+        await message.edit(embed=embed_update)
 
 
 # runs when bot is started ----- not seen in server
