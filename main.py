@@ -52,14 +52,14 @@ async def pokemon(ctx):
         react = await client.wait_for('reaction_add')
 
         if str(react[0]) == "🇷":
-            df.at["{}".format(ctx.author), "Restarts"] = int(df.at["{}".format(ctx.author), "Restarts"]) + 1
-            await message.remove_reaction("🇷", ctx.author)
+            df.at["{}".format(react[1]), "Restarts"] = int(df.at["{}".format(react[1]), "Restarts"]) + 1
+            await message.remove_reaction("🇷", react[1])
         elif str(react[0]) == "🇩":
-            df.at["{}".format(ctx.author), "Deaths"] = int(df.at["{}".format(ctx.author), "Deaths"]) + 1
-            await message.remove_reaction("🇩", ctx.author)
+            df.at["{}".format(react[1]), "Deaths"] = int(df.at["{}".format(react[1]), "Deaths"]) + 1
+            await message.remove_reaction("🇩", react[1])
         elif str(react[0]) == "🇵":
-            df.at["{}".format(ctx.author), "PB"] = int(df.at["{}".format(ctx.author), "PB"]) + 1
-            await message.remove_reaction("🇵", ctx.author)
+            df.at["{}".format(react[1]), "PB"] = int(df.at["{}".format(react[1]), "PB"]) + 1
+            await message.remove_reaction("🇵", react[1])
 
         wks.set_dataframe(df, (0, 0))
         wks.delete_rows(1)
