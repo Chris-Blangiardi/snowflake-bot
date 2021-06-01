@@ -23,8 +23,7 @@ async def greeting(ctx):
 
 @client.command(name="sheets")
 async def pokemon(ctx):
-    key = os.environ.get("GoogleSheetsAPI")
-    gc = pygsheets.authorize(service_file=key)
+    gc = pygsheets.authorize(service_account_env_var="GoogleSheetsAPI")
     # open the google spreadsheet (where 'PY to Gsheet Test' is the name of my sheet)
     sheet = gc.open("PY to Gsheet Test")
     # select the first sheet
