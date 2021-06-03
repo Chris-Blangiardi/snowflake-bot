@@ -25,7 +25,7 @@ async def greeting(ctx):
 async def pokemon(ctx):
     gc = pygsheets.authorize(service_account_env_var="GoogleSheetsAPI")
     # open the google spreadsheet (where 'PY to Gsheet Test' is the name of my sheet)
-    sheet = gc.open("PY to Gsheet Test")
+    sheet = gc.open("Pokemon Nuzlocke")
     # select the first sheet
     wks = sheet.sheet1
 
@@ -35,8 +35,7 @@ async def pokemon(ctx):
     df = pd.DataFrame(data=wks, columns=column_data, index=row_data)
 
     embed = Embed(title="Pokemon", description="Black And White 2", url="https://docs.google.com/spreadsheets/d"
-                                                                        "/1hebqj2A4i40dG"
-                                                                        "-iR0EWiX62072ZLtmcW8Rr2vbXM_xs/edit#gid=0",
+                                                                        "/1en70YxMUEnq3lhGxibaw8gArrpiyYCcxWCvrrfNgEiE/edit#gid=0",
                   colour=0x0000FF, timestamp=datetime.datetime.utcnow())
     embed.add_field(name="Current Stats", value=df.to_string(header=None, index=None, max_colwidth=True), inline=False)
     embed.set_thumbnail(url="https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/International_Pok%C3"
@@ -64,7 +63,9 @@ async def pokemon(ctx):
         wks.set_dataframe(df, (0, 0))
         wks.delete_rows(1)
 
-        embed_update = Embed(title="Pokemon", description="Black And White 2",
+        embed_update = Embed(title="Pokemon", description="Black And White 2", url="https://docs.google.com"
+                                                                                   "/spreadsheets/d"
+                                                                                   "/1en70YxMUEnq3lhGxibaw8gArrpiyYCcxWCvrrfNgEiE/edit#gid=0",
                              colour=0x0000FF, timestamp=datetime.datetime.utcnow())
         embed_update.add_field(name="Current Stats", value=df.to_string(header=None, index=None), inline=False)
         embed_update.set_thumbnail(url="https://upload.wikimedia.org/wikipedia/commons/thumb/9/98"
