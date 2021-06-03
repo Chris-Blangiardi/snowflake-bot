@@ -25,7 +25,7 @@ async def greeting(ctx):
 async def pokemon(ctx):
     gc = pygsheets.authorize(service_account_env_var="GoogleSheetsAPI")
     # open the google spreadsheet (where 'PY to Gsheet Test' is the name of my sheet)
-    sheet = gc.open("Pokemon Nuzlocke")
+    sheet = gc.open("Pokemon Nuzlockes")
     # select the first sheet
     wks = sheet.sheet1
 
