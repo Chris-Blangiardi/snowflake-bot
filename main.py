@@ -24,7 +24,7 @@ async def greeting(ctx):
 @client.command(name="sheets")
 async def pokemon(ctx):
     gc = pygsheets.authorize(service_account_env_var="GoogleSheetsAPI")
-    # open the google spreadsheet (where 'PY to Gsheet Test' is the name of my sheet)
+    # open the Google spreadsheet (where 'PY to Gsheet Test' is the name of my sheet)
     sheet = gc.open("Pokemon Nuzlockes")
     # select the first sheet
     wks = sheet.sheet1
@@ -66,7 +66,7 @@ async def pokemon(ctx):
                              colour=0x0000FF, timestamp=datetime.datetime.utcnow())
         embed_update.add_field(name="Current Stats", value=df.to_string(header=None, index=None), inline=False)
         embed_update.set_thumbnail(url="https://upload.wikimedia.org/wikipedia/commons/thumb/9/98"
-                                       "/International_Pok%C3"z
+                                       "/International_Pok%C3"
                                        "%A9mon_logo.svg/1200px-International_Pok%C3%A9mon_logo.svg.png")
         await message.edit(embed=embed_update)
 
