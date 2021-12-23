@@ -34,7 +34,7 @@ async def pokemon(ctx):
 
     df = pd.DataFrame(data=wks, columns=column_data, index=row_data)
 
-    embed = Embed(title="Pokemon", description="Black And White 2", url=os.getenv("GoogleSheetData"),
+    embed = Embed(title="Pokemon", description="Black And White 2", url=os.environ.get("GoogleSheetData"),
                   colour=0x0000FF, timestamp=datetime.datetime.utcnow())
     embed.add_field(name="Current Stats", value=df.to_string(header=None, index=None, max_colwidth=True), inline=False)
     embed.set_thumbnail(url="https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/International_Pok%C3"
@@ -62,7 +62,7 @@ async def pokemon(ctx):
         wks.set_dataframe(df, (0, 0))
         wks.delete_rows(1)
 
-        embed_update = Embed(title="Pokemon", description="Black And White 2", url=os.getenv("GoogleSheetData"),
+        embed_update = Embed(title="Pokemon", description="Black And White 2", url=os.environ.get("GoogleSheetData"),
                              colour=0x0000FF, timestamp=datetime.datetime.utcnow())
         embed_update.add_field(name="Current Stats", value=df.to_string(header=None, index=None), inline=False)
         embed_update.set_thumbnail(url="https://upload.wikimedia.org/wikipedia/commons/thumb/9/98"
